@@ -35,9 +35,10 @@ A custom quality-control test jig designed to characterise servo motors — prim
 
 The full jig was designed in **Fusion 360** as a parametric, jointed assembly. All components are linked by kinematic joints — not just static positions — so the gear mesh, encoder sweep, and reaction arm deflection can all be verified in simulation before physical assembly.
 
-> **📹 CAD Joint Motion Video**  
-> [▶ Watch on YouTube](https://youtu.be/AN1cJzH8ZRU)  
-> Clip showing the full kinematic chain: gear mesh → encoder magnet sweep → load cell arms deflecting.
+**📹 CAD Joint Motion Video** — click to watch on YouTube:
+
+[![Fusion 360 Kinematic Demo](https://img.youtube.com/vi/AN1cJzH8ZRU/maxresdefault.jpg)](https://youtu.be/AN1cJzH8ZRU)
+*Full kinematic chain: gear mesh → encoder magnet sweep → load cell arms deflecting.*
 
 ![Jig Assembly Isometric](Images/jig_cad.png)
 *Full jig assembly at nominal position.*
@@ -215,7 +216,7 @@ posha-internship/
 │   ├── schematic.png                 # Module-based wiring schematic
 │   └── bldc_based aproach.jpeg       # FOC/BLDC concept sketch
 ├── Videos/
-│   └── freecompress-POSHA_fusion.mp4 # Fusion 360 kinematic joint motion demo
+│   └── freecompress-POSHA_fusion.mp4 # Fusion 360 kinematic demo (also on YouTube: https://youtu.be/AN1cJzH8ZRU)
 └── schematic/
     └── Posha_submission_schematic.fzz # Fritzing schematic source file
 ```
@@ -226,7 +227,7 @@ posha-internship/
 
 1. **Build the frame** — assemble 2020 extrusion with corner brackets; mount servo, gearbox, and load cells
 2. **Print parts** — export STLs from Fusion 360; print in PETG at ≥ 40% infill
-3. **Wire electronics** — follow schematic in `Images/schematic.png`; verify I²C addresses with `i2c_scanner.ino`
+3. **Wire electronics** — follow schematic in `Images/schematic.png`; verify I²C addresses (AS5600 @ 0x36, INA219 @ 0x40, ADS1115 @ 0x48) before first run
 4. **Calibrate** — run the tare routine; hang weights 100 g → 2000 g; store scale factors in EEPROM
 5. **No-load test** — disengage motor-side gearbox half; run firmware; verify speed curve vs. OEM
 6. **Load sweep** — re-engage gearbox; firmware auto-sweeps 0 → 1.5 N·m in 0.05 N·m steps; export CSV
