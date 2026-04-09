@@ -229,4 +229,4 @@ posha-internship/
 
 ---
 
-*IIT Bombay · POSHA Engineering Team · April 2026*
+*IIT Bombay · POSHA Assignment · April 2026*
