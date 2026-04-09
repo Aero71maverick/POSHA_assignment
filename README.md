@@ -36,15 +36,26 @@ A custom quality-control test jig designed to characterise servo motors — prim
 The full jig was designed in **Fusion 360** as a parametric, jointed assembly. All components are linked by kinematic joints — not just static positions — so the gear mesh, encoder sweep, and reaction arm deflection can all be verified in simulation before physical assembly.
 
 > **📹 CAD Joint Motion Video**  
-> *[Insert screen recording here — drag the servo horn in Fusion 360 to show the full kinematic chain: gear mesh → encoder magnet sweep → load cell arms deflecting]*  
-> Suggested clip: ~30–60 seconds, exported as MP4 or GIF, showing the jig scrubbing through full servo angular travel.  
-> To record: Fusion 360 → `File` → `New Animation` → scrub timeline → `Publish Video`.
+> [Fusion 360 kinematic demo](Videos/freecompress-POSHA_fusion.mp4)  
+> Clip showing the full kinematic chain: gear mesh → encoder magnet sweep → load cell arms deflecting.
 
-![Jig Assembly Isometric](assets/jig_cad.png)
+![Jig Assembly Isometric](Images/jig_cad.png)
 *Full jig assembly at nominal position.*
 
-![No-Load Configuration](assets/collage.png)
+![No-Load Configuration](Images/collage.png)
 *Motor-side gearbox half disengaged — no-load test configuration.*
+
+![Top Left View](Images/image_top_left.png)
+*Top-left view of jig assembly.*
+
+![Top Right View](Images/top_right.png)
+*Top-right view of jig assembly.*
+
+![Bottom Left View](Images/bottom_left.png)
+*Bottom-left view of jig assembly.*
+
+![Bottom Right View](Images/bottom_right.png)
+*Bottom-right view of jig assembly.*
 
 ### FOC Approach Considered and Rejected
 
@@ -53,6 +64,9 @@ A BLDC + field-oriented control approach was sketched (using ODrive/VESC) that w
 1. **Cost** — ODrive 3.6 alone costs ₹8,000–12,000; the full DC motor + load cell approach costs under ₹3,000
 2. **Calibration bootstrap** — Kt of the BLDC still needs a reference load cell to calibrate, eliminating the key advantage
 3. **Systematic error** — a mis-tuned FOC loop introduces unobservable torque error; a load cell is an independent physical measurement
+
+![BLDC-Based Approach Sketch](Images/bldc_based%20aproach.jpeg)
+*FOC/BLDC concept sketch — considered and rejected.*
 
 ### Electronics
 
@@ -66,12 +80,15 @@ Two separate current measurement strategies are used deliberately:
 
 All three I²C devices share SDA/SCL (A4/A5) with unique addresses: AS5600 @ 0x36, INA219 @ 0x40, ADS1115 @ 0x48.
 
+![Wiring Schematic](Images/schematic.png)
+*Module-based wiring schematic.*
+
 ### Firmware
 
 Two firmware variants are provided:
 
-- **`firmware/module_version/`** — Arduino Uno with all breakout modules (ACS712 + ADS1115 for motor current)
-- **`firmware/pcb_version/`** — ATmega328P with discrete ICs (dual INA219, fully digital)
+- **`Codes/posha_qc_module.ino`** — Arduino Uno with all breakout modules (ACS712 + ADS1115 for motor current)
+- **`Codes/posha_qc_pcb.ino`** — ATmega328P with discrete ICs (dual INA219, fully digital)
 
 Both stream a timestamped CSV over Serial at 20 Hz:
 
@@ -181,30 +198,27 @@ Linearity is verified with a one-sample t-test (α = 0.05, n = 5, t_crit = 2.776
 ```
 posha-internship/
 ├── README.md
-├── FInal_submission.pdf          # Full written report
-├── assets/
-│   ├── jig_cad.png               # Full assembly isometric
-│   ├── collage.png               # No-load configuration
-│   ├── schematic.png             # Module-based wiring schematic
-│   ├── perf_image.jpg            # OEM performance graph
-│   ├── bldc_based_approach.jpeg  # FOC concept sketch
-│   └── videos/
-│       └── cad_joint_motion.mp4  # ← ADD: Fusion 360 kinematic demo
-├── firmware/
-│   ├── module_version/
-│   │   └── qc_jig_module.ino     # Arduino Uno + breakout modules
-│   └── pcb_version/
-│       └── qc_jig_pcb.ino        # ATmega328P + discrete ICs
-├── cad/
-│   ├── jig_assembly.f3d          # Fusion 360 parametric assembly
-│   └── stl/
-│       ├── servo_mount.stl
-│       ├── output_horn.stl
-│       ├── encoder_bracket.stl
-│       ├── gearbox_half_output.stl
-│       └── gearbox_half_motor.stl
-└── pcb/
-    └── pcb_explainer.pdf         # IC selection rationale & layout notes
+├── FInal_submission.pdf              # Full written report
+├── CAD_files/
+│   ├── POSHA.f3z                     # Fusion 360 full assembly (POSHA robot)
+│   └── QC_jig_static.step            # Static STEP export of QC jig assembly
+├── Codes/
+│   ├── posha_qc_module.ino           # Arduino Uno + breakout modules firmware
+│   └── posha_qc_pcb.ino              # ATmega328P + discrete ICs firmware
+├── Images/
+│   ├── jig_cad.png                   # Full jig assembly isometric
+│   ├── collage.png                   # No-load configuration
+│   ├── image_top_left.png            # Jig top-left view
+│   ├── top_right.png                 # Jig top-right view
+│   ├── bottom_left.png               # Jig bottom-left view
+│   ├── bottom_right.png              # Jig bottom-right view
+│   ├── schematic.png                 # Module-based wiring schematic
+│   └── bldc_based aproach.jpeg       # FOC/BLDC concept sketch
+├── Videos/
+│   ├── POSHA.avi                     # POSHA robot demo video
+│   └── freecompress-POSHA_fusion.mp4 # Fusion 360 kinematic joint motion demo
+└── schematic/
+    └── Posha_submission_schematic.fzz # Fritzing schematic source file
 ```
 
 ---
@@ -213,7 +227,7 @@ posha-internship/
 
 1. **Build the frame** — assemble 2020 extrusion with corner brackets; mount servo, gearbox, and load cells
 2. **Print parts** — export STLs from Fusion 360; print in PETG at ≥ 40% infill
-3. **Wire electronics** — follow schematic in `assets/schematic.png`; verify I²C addresses with `i2c_scanner.ino`
+3. **Wire electronics** — follow schematic in `Images/schematic.png`; verify I²C addresses with `i2c_scanner.ino`
 4. **Calibrate** — run the tare routine; hang weights 100 g → 2000 g; store scale factors in EEPROM
 5. **No-load test** — disengage motor-side gearbox half; run firmware; verify speed curve vs. OEM
 6. **Load sweep** — re-engage gearbox; firmware auto-sweeps 0 → 1.5 N·m in 0.05 N·m steps; export CSV
