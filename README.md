@@ -36,7 +36,7 @@ A custom quality-control test jig designed to characterise servo motors — prim
 The full jig was designed in **Fusion 360** as a parametric, jointed assembly. All components are linked by kinematic joints — not just static positions — so the gear mesh, encoder sweep, and reaction arm deflection can all be verified in simulation before physical assembly.
 
 > **📹 CAD Joint Motion Video**  
-> [Fusion 360 kinematic demo](Videos/freecompress-POSHA_fusion.mp4)  
+> [▶ Watch on YouTube](https://youtu.be/AN1cJzH8ZRU)  
 > Clip showing the full kinematic chain: gear mesh → encoder magnet sweep → load cell arms deflecting.
 
 ![Jig Assembly Isometric](Images/jig_cad.png)
@@ -215,7 +215,6 @@ posha-internship/
 │   ├── schematic.png                 # Module-based wiring schematic
 │   └── bldc_based aproach.jpeg       # FOC/BLDC concept sketch
 ├── Videos/
-│   ├── POSHA.avi                     # POSHA robot demo video
 │   └── freecompress-POSHA_fusion.mp4 # Fusion 360 kinematic joint motion demo
 └── schematic/
     └── Posha_submission_schematic.fzz # Fritzing schematic source file
